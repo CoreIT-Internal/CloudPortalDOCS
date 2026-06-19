@@ -8,7 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "i18n:check": "node scripts/i18n-check.mjs",
-    "translate": "node scripts/translate.mjs"
+    "translate": "node scripts/translate.mjs",
+    "deploy": "nuxt generate && npx wrangler deploy"
   },
   "dependencies": {
     "docus": "latest",

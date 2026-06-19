@@ -1,31 +1,50 @@
-# Deploy: Cloudflare Pages → docs.coreit.cloud
+# Deploy: Cloudflare → docs.coreit.cloud
 
-The site is a static Nuxt build deployed to **Cloudflare Pages**, connected to the
-GitHub repo **[oscarcroon/CloudPortalDOCS](https://github.com/oscarcroon/CloudPortalDOCS)**
-for automatic production and preview deployments.
+The site is a **fully static** Nuxt build (`nuxt generate` → `./dist`, no server runtime),
+deployed from the GitHub repo
+**[oscarcroon/CloudPortalDOCS](https://github.com/oscarcroon/CloudPortalDOCS)**.
+
+As of 2026 Cloudflare positions **Workers (static assets)** as the default for new
+projects (Pages is still supported but no longer the steered path). This project ships a
+`wrangler.jsonc` for the **Workers** path. The legacy **Pages** path also works — see the
+alternative at the bottom.
 
 ## 1. Push to GitHub
 
-- Push this project to the **public** repo `oscarcroon/CloudPortalDOCS`.
+- Push this project to `oscarcroon/CloudPortalDOCS`.
 - `app.config.ts` (`github.url` / `socials.github`) already points there — this powers
-  the **Edit this page** links.
+  the **Edit this page** links. (Repo must be **public** for external edit links to work.)
 
-## 2. Connect Cloudflare Pages
+## 2. Deploy via Cloudflare Workers (recommended)
 
-In the Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**:
+`wrangler.jsonc` declares an assets-only Worker serving `./dist`:
 
-| Setting              | Value                |
-| -------------------- | -------------------- |
-| Framework preset     | Nuxt / None          |
-| Build command        | `npm run generate`   |
-| Build output dir     | `dist`               |
-| Node version         | `22` (env `NODE_VERSION=22`) |
+```jsonc
+{
+  "name": "coreit-docs",
+  "compatibility_date": "2026-06-19",
+  "assets": { "directory": "./dist", "not_found_handling": "404-page" }
+}
+```
 
-> `nuxt generate` writes identical output to both `dist/` and `.output/public` —
-> either works as the output dir (verified locally). `dist` matches Cloudflare's Nuxt preset.
+**Option A — Git-connected (Workers Builds, auto-deploy on push):**
+Cloudflare dashboard → **Workers & Pages → Create → Workers → Import a repository** →
+select `oscarcroon/CloudPortalDOCS`:
 
-- Production branch: `main` → builds on every push.
-- Preview deployments: enabled for pull requests (powers the Edit→PR→preview flow).
+| Setting        | Value              |
+| -------------- | ------------------ |
+| Build command  | `npm run generate` |
+| Deploy command | `npx wrangler deploy` |
+| Node version   | `22` (env `NODE_VERSION=22`) |
+
+**Option B — Manual deploy from your machine:**
+```bash
+npm run deploy        # = nuxt generate && npx wrangler deploy
+```
+(`npx` fetches wrangler; or `npm i -D wrangler` first.)
+
+`nuxt generate` writes identical output to `dist/` and `.output/public`; `wrangler.jsonc`
+points at `dist`.
 
 ## 3. Build environment variables (REQUIRED)
 
@@ -33,7 +52,7 @@ In the Pages project → **Settings → Environment variables → Production** (
 
 | Variable               | Value                          | Why |
 | ---------------------- | ------------------------------ | --- |
-| `NUXT_PUBLIC_SITE_URL` | `https://docs.coreit.cloud`    | Makes `sitemap.xml` use absolute URLs and `llms.txt` use the right domain. Without it, Docus falls back to the auto `*.pages.dev` URL (wrong canonical domain). |
+| `NUXT_PUBLIC_SITE_URL` | `https://docs.coreit.cloud`    | Makes `sitemap.xml` use absolute URLs and `llms.txt` use the right domain. Without it, Docus falls back to the auto `*.workers.dev` / `*.pages.dev` URL (wrong canonical domain). |
 | `NODE_VERSION`         | `22`                           | Build runtime. |
 
 > Verified: with `NUXT_PUBLIC_SITE_URL` set, sitemap `<loc>` entries and robots.txt
@@ -41,9 +60,9 @@ In the Pages project → **Settings → Environment variables → Production** (
 
 ## 4. Custom domain
 
-In the Pages project → **Custom domains** → add `docs.coreit.cloud`.
-Since the zone is already on Cloudflare, the CNAME is created automatically and TLS
-is provisioned. Verify the site resolves over HTTPS.
+Workers: project → **Settings → Domains & Routes → Add → Custom Domain** → `docs.coreit.cloud`.
+(Pages: project → **Custom domains** → add the same.) Since the zone is already on
+Cloudflare, the DNS record + TLS are provisioned automatically. Verify HTTPS resolves.
 
 ## 5. Secrets (for AI translation)
 
@@ -52,8 +71,8 @@ The translation workflow needs an API key. In **repo Settings → Secrets and va
 
 - `ANTHROPIC_API_KEY` — used only by the maintainer-triggered `docs-translate` workflow.
 
-Cloudflare Pages does **not** need this secret — translation happens in GitHub Actions,
-not at build time.
+Cloudflare does **not** need this secret — translation happens in GitHub Actions,
+not at build/deploy time.
 
 ## 6. llms.txt / MCP
 
@@ -71,3 +90,18 @@ not at build time.
   machine-translation notice. Swedish is the authoritative source.
 - Open content decisions tracked separately: whether to document the `_coreid` autodiscover
   record, real support contact details, and partner terminology.
+
+## Alternative: deploy via Cloudflare Pages (legacy path)
+
+Pages still works for static sites. Dashboard → **Workers & Pages → Create → Pages →
+Connect to Git** → `oscarcroon/CloudPortalDOCS`:
+
+| Setting          | Value              |
+| ---------------- | ------------------ |
+| Framework preset | Nuxt / None        |
+| Build command    | `npm run generate` |
+| Build output dir | `dist`             |
+| Node version     | `22`               |
+
+Set the same `NUXT_PUBLIC_SITE_URL` env var. Pages also gives per-PR preview deployments
+out of the box. `wrangler.jsonc` is ignored by the Pages flow.
