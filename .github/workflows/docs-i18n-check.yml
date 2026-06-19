@@ -1,0 +1,25 @@
+name: docs-i18n-check
+
+# Runs on every PR (including from forks) WITHOUT secrets — safe for untrusted code.
+on:
+  pull_request:
+    paths:
+      - 'content/**'
+      - 'scripts/i18n-check.mjs'
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  i18n-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # No dependencies needed — the check is pure Node.
+      - name: Check i18n parity, frontmatter and forbidden terms
+        run: node scripts/i18n-check.mjs

@@ -1,0 +1,18 @@
+{
+  "name": "coreit-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "i18n:check": "node scripts/i18n-check.mjs",
+    "translate": "node scripts/translate.mjs"
+  },
+  "dependencies": {
+    "docus": "latest",
+    "better-sqlite3": "^12.6.2",
+    "nuxt": "^4.3.1"
+  }
+}

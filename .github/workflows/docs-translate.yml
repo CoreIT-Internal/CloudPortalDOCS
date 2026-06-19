@@ -1,0 +1,49 @@
+name: docs-translate
+
+# Maintainer-triggered AI translation (sv -> en). NEVER triggered automatically
+# by untrusted PRs. Runs only on manual dispatch or when a maintainer adds the
+# `ai-translate` label to a PR. Secrets are only exposed in these trusted paths.
+on:
+  workflow_dispatch:
+    inputs:
+      all:
+        description: 'Translate all pages (otherwise only missing/stale)'
+        type: boolean
+        default: false
+  pull_request_target:
+    types: [labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  translate:
+    # Label path: only run for the explicit `ai-translate` label.
+    if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'ai-translate'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # For labeled PRs, check out the PR head so output lands on the PR branch.
+          ref: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.ref || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Translate sv -> en
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/translate.mjs ${{ (github.event_name == 'workflow_dispatch' && inputs.all) && '--all' || '' }}
+      - name: Validate i18n parity
+        run: node scripts/i18n-check.mjs
+      - name: Commit translations
+        run: |
+          git config user.name "docs-translate-bot"
+          git config user.email "bot@users.noreply.github.com"
+          if [ -n "$(git status --porcelain content/en)" ]; then
+            git add content/en
+            git commit -m "chore(i18n): AI-translated en pages (review required)"
+            git push
+          else
+            echo "No translation changes."
+          fi
