@@ -60,9 +60,13 @@ In the Pages project → **Settings → Environment variables → Production** (
 
 ## 4. Custom domain
 
-Workers: project → **Settings → Domains & Routes → Add → Custom Domain** → `docs.coreit.cloud`.
-(Pages: project → **Custom domains** → add the same.) Since the zone is already on
-Cloudflare, the DNS record + TLS are provisioned automatically. Verify HTTPS resolves.
+**If `docs.coreit.cloud`'s zone (`coreit.cloud`) is in your Cloudflare account:**
+Workers project → **Settings → Domains & Routes → Add → Custom Domain** → `docs.coreit.cloud`.
+DNS record + TLS are provisioned automatically.
+
+**If `coreit.cloud` is NOT in Cloudflare (current case):** the domain is served via
+**Cloudflare for SaaS (Custom Hostnames)** through the `coreit.network` zone. See the
+detailed step-by-step in **[CLOUDFLARE-SETUP.md](./CLOUDFLARE-SETUP.md)**.
 
 ## 5. Secrets (for AI translation)
 
