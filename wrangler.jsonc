@@ -9,5 +9,14 @@
     "directory": "./dist",
     // Serve the nearest 404.html for unmatched routes (multi-page docs, not a SPA).
     "not_found_handling": "404-page"
-  }
+  },
+  // Keep the *.workers.dev URL available for testing.
+  "workers_dev": true,
+  // Attach the Worker to the Cloudflare for SaaS custom hostname via the coreit.network
+  // zone. Scoped to docs.coreit.cloud only (NOT */*), so the rest of coreit.network is
+  // untouched. Requires: the custom hostname + fallback origin set up in coreit.network
+  // (see CLOUDFLARE-SETUP.md) and the deploying account to own the coreit.network zone.
+  "routes": [
+    { "pattern": "docs.coreit.cloud/*", "zone_name": "coreit.network" }
+  ]
 }
