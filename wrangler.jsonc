@@ -3,7 +3,7 @@
   // The site is fully prerendered (`nuxt generate` -> ./dist); this Worker is
   // assets-only (no server code) and serves those files directly.
   // Docs: https://developers.cloudflare.com/workers/static-assets/
-  "name": "coreit-docs",
+  "name": "cloudportaldocs",
   "compatibility_date": "2026-06-19",
   "assets": {
     "directory": "./dist",
