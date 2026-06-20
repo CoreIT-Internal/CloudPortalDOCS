@@ -51,32 +51,34 @@ Besökare → https://docs.coreit.cloud
 
 ## Steg 1 — Deploya Workern
 
-Du behöver en deployad Worker innan den kan kopplas till ett hostnamn. Välj **A** eller **B**.
+> ⚠️ **Använd INTE Cloudflares "Workers Builds" (Git-kopplat bygge).** Docus/Nuxt UI-bygget
+> är för tungt för Cloudflares build-container och **timeoutar efter 20 min** (hänger på
+> Vite `transforming...`). Bygg i stället där det är snabbt och ladda upp resultatet. Välj **A** eller **B**.
 
-### A) Git-kopplad auto-deploy (rekommenderas)
-1. Cloudflare dashboard → **Compute (Workers)** / **Workers & Pages**
-2. **Create** → fliken **Workers** → **Import a repository**
-3. Anslut GitHub-kontot **oscarcroon** och välj repot **`CloudPortalDOCS`**
-4. Sätt build-inställningar:
-   | Fält | Värde |
-   | --- | --- |
-   | Project name | `coreit-docs` |
-   | Production branch | `main` |
-   | Build command | `npm run generate` |
-   | Deploy command | `npx wrangler deploy` |
-5. Lägg till **miljövariabler** (se Steg 5) redan nu
-6. **Save and Deploy**
-
-### B) Manuell deploy från din dator
+### A) Manuell deploy från din dator (snabbast, alltid pålitlig)
 ```bash
 cd C:\Users\croons\Documents\_dev\coreit-docs
-npx wrangler login          # engångsinloggning i webbläsaren
-npm run deploy              # = nuxt generate && npx wrangler deploy
+npx wrangler login          # engångsinloggning i webbläsaren (välj kontot som äger coreit.network)
+npm run deploy              # = nuxt generate && npx wrangler deploy  (~2 min)
 ```
+Bygger statiskt lokalt och laddar upp `dist` till Workern `cloudportaldocs`.
 
-När det är klart finns Workern på `https://coreit-docs.<ditt-subdomän>.workers.dev`.
-Öppna den och kontrollera att `/sv` laddar. (Den här workers.dev-URL:en är bara för test —
-den riktiga adressen blir `docs.coreit.cloud`.)
+### B) Auto-deploy via GitHub Actions (bygger på GitHubs runners, ingen timeout)
+Workflowen finns i `.github/workflows/deploy.yml`. Den kräver två repo-secrets
+(GitHub → repo → **Settings → Secrets and variables → Actions**):
+
+| Secret | Värde |
+| --- | --- |
+| `CLOUDFLARE_API_TOKEN` | API-token med **Account → Workers Scripts: Edit** och **Zone (coreit.network) → Workers Routes: Edit** |
+| `CLOUDFLARE_ACCOUNT_ID` | Ditt Cloudflare Account ID (syns i dashboarden) |
+
+Sätt secrets → pusha till `main` → workflowen bygger och deployar automatiskt.
+
+> Om du redan kopplat repot som en **Workers Build** i Cloudflare: koppla bort det
+> (Worker → **Settings → Builds → Disconnect**) så slutar de timeoutande byggena trigga.
+
+När deployen är klar finns Workern på `https://cloudportaldocs.<ditt-subdomän>.workers.dev`.
+Öppna den och kontrollera att `/sv` laddar. (Den URL:en är bara för test — den riktiga blir `docs.coreit.cloud`.)
 
 ---
 
