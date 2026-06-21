@@ -77,6 +77,14 @@ for (const p of pages.filter(p => p.locale === 'sv' && p.portalRoute)) {
 // Longest-prefix-first so the app picks the most specific match.
 routes.sort((a, b) => b.route.length - a.route.length)
 
+// Full sv↔en page map (every page paired by translationKey). Powers the docs
+// site's locale switcher, which otherwise 404s because slugs are translated
+// (e.g. /sv/certifikat/oversikt ↔ /en/certificates/overview).
+const pagePairs = pages
+  .filter(p => p.locale === 'sv' && p.translationKey)
+  .map(p => ({ key: p.translationKey, sv: p.url, en: enByKey.get(p.translationKey) || '/en' }))
+pagePairs.unshift({ key: 'index', sv: '/sv', en: '/en' })
+
 if (errors.length) {
   console.log('❌ docs-map problems:')
   for (const e of errors) console.log('   - ' + e)
@@ -84,11 +92,11 @@ if (errors.length) {
 }
 
 if (CHECK) {
-  console.log(`✅ docs-map check passed (${routes.length} mapped routes)`)
+  console.log(`✅ docs-map check passed (${routes.length} routes, ${pagePairs.length} page pairs)`)
   process.exit(0)
 }
 
-const map = { version: 1, routes }
+const map = { version: 1, routes, pages: pagePairs }
 await mkdir(join(ROOT, 'public'), { recursive: true })
 await writeFile(OUT, JSON.stringify(map, null, 2) + '\n', 'utf8')
-console.log(`✅ Wrote ${relative(ROOT, OUT)} (${routes.length} routes)`)
+console.log(`✅ Wrote ${relative(ROOT, OUT)} (${routes.length} routes, ${pagePairs.length} page pairs)`)
