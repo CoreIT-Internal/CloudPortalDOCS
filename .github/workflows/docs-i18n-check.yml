@@ -6,6 +6,7 @@ on:
     paths:
       - 'content/**'
       - 'scripts/i18n-check.mjs'
+      - 'scripts/gen-docs-map.mjs'
   push:
     branches: [main]
 
@@ -20,6 +21,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      # No dependencies needed — the check is pure Node.
+      # No dependencies needed — the checks are pure Node.
       - name: Check i18n parity, frontmatter and forbidden terms
         run: node scripts/i18n-check.mjs
+      - name: Check docs-map (portalRoute parity, no duplicate routes)
+        run: node scripts/gen-docs-map.mjs --check

@@ -3,10 +3,14 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "node scripts/gen-docs-map.mjs",
     "dev": "nuxt dev",
     "build": "nuxt build",
+    "pregenerate": "node scripts/gen-docs-map.mjs",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "docs-map": "node scripts/gen-docs-map.mjs",
+    "docs-map:check": "node scripts/gen-docs-map.mjs --check",
     "i18n:check": "node scripts/i18n-check.mjs",
     "translate": "node scripts/translate.mjs",
     "deploy": "nuxt generate && npx wrangler deploy"

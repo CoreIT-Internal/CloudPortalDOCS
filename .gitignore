@@ -6,6 +6,9 @@
 .cache
 dist
 
+# Generated at build by scripts/gen-docs-map.mjs
+public/docs-map.json
+
 # Node dependencies
 node_modules
 
