@@ -8,6 +8,7 @@ dist
 
 # Generated at build by scripts/gen-docs-map.mjs
 public/docs-map.json
+app/docs-map.generated.ts
 
 # Node dependencies
 node_modules
