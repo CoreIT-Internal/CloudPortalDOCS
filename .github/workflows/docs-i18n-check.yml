@@ -7,6 +7,7 @@ on:
       - 'content/**'
       - 'scripts/i18n-check.mjs'
       - 'scripts/gen-docs-map.mjs'
+      - 'scripts/link-check.mjs'
   push:
     branches: [main]
 
@@ -26,3 +27,5 @@ jobs:
         run: node scripts/i18n-check.mjs
       - name: Check docs-map (portalRoute parity, no duplicate routes)
         run: node scripts/gen-docs-map.mjs --check
+      - name: Check internal links resolve
+        run: node scripts/link-check.mjs
