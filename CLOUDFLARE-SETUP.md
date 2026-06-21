@@ -63,19 +63,62 @@ npm run deploy              # = nuxt generate && npx wrangler deploy  (~2 min)
 ```
 Bygger statiskt lokalt och laddar upp `dist` till Workern `cloudportaldocs`.
 
-### B) Auto-deploy via GitHub Actions (bygger på GitHubs runners, ingen timeout)
-Workflowen finns i `.github/workflows/deploy.yml`. Den kräver två repo-secrets
-(GitHub → repo → **Settings → Secrets and variables → Actions**):
+### B) Auto-deploy via GitHub Actions (rekommenderas — bygger på GitHubs runners, ingen timeout)
+Workflowen finns i `.github/workflows/deploy.yml`: den kör `npm ci` → `npm run generate`
+→ `wrangler deploy` vid varje push till `main`. Den behöver två repo-secrets. Följ B1–B3.
+
+#### B1 — Hämta ditt Account ID
+Cloudflare dashboard → **Workers & Pages** (eller valfri zon-översikt). I högerspalten står
+**Account ID** — klicka för att kopiera. (Det är inte hemligt, men workflowen behöver det.)
+
+#### B2 — Skapa en API-token
+Dashboard → **My Profile → API Tokens → Create Token**.
+
+Eftersom routen numera hanteras i dashboarden (Steg 5), behöver token **bara** kunna ladda
+upp workern. Två varianter:
+
+**Enklast — använd mallen:**
+1. Välj mallen **"Edit Cloudflare Workers"** → **Use template**
+2. **Account Resources:** Include → ditt konto
+3. **Zone Resources:** Include → **coreit.network** (eller "All zones")
+4. **Continue to summary → Create Token**
+5. **Kopiera token direkt** (visas bara en gång)
+
+**Minimal — egen token (om du vill ge så lite som möjligt):**
+1. **Create Custom Token**
+2. Permissions:
+   - **Account** → **Workers Scripts** → **Edit**
+   - *(valfritt men bra)* **Account** → **Account Settings** → **Read**
+3. **Account Resources:** Include → ditt konto
+4. Continue → Create → kopiera token
+
+> Behöver INTE längre **Workers Routes: Edit** eftersom `wrangler.jsonc` inte sätter någon
+> route (den ligger i dashboarden). Om du senare flyttar tillbaka routen till config måste
+> token även ha **Zone → Workers Routes: Edit** på `coreit.network`.
+
+#### B3 — Lägg in secrets i GitHub
+GitHub → repot **CloudPortalDOCS** → **Settings → Secrets and variables → Actions** →
+**New repository secret**, skapa två (namnen måste stämma exakt):
 
 | Secret | Värde |
 | --- | --- |
-| `CLOUDFLARE_API_TOKEN` | API-token med **Account → Workers Scripts: Edit** och **Zone (coreit.network) → Workers Routes: Edit** |
-| `CLOUDFLARE_ACCOUNT_ID` | Ditt Cloudflare Account ID (syns i dashboarden) |
+| `CLOUDFLARE_API_TOKEN` | token från B2 |
+| `CLOUDFLARE_ACCOUNT_ID` | Account ID från B1 |
 
-Sätt secrets → pusha till `main` → workflowen bygger och deployar automatiskt.
+Pusha sedan till `main` (eller kör workflowen manuellt via **Actions → deploy → Run workflow**).
+Följ körningen under fliken **Actions**.
 
-> Om du redan kopplat repot som en **Workers Build** i Cloudflare: koppla bort det
-> (Worker → **Settings → Builds → Disconnect**) så slutar de timeoutande byggena trigga.
+> Om du tidigare kopplade repot som en **Workers Build** i Cloudflare: **koppla bort det**
+> (Worker `cloudportaldocs` → **Settings → Builds → Disconnect**) så slutar de timeoutande
+> byggena trigga parallellt vid varje push.
+
+#### Felsökning av deploy-steget
+| Fel i wrangler-steget | Orsak / åtgärd |
+| --- | --- |
+| `Authentication error [code: 10000]` | Token saknas/fel, eller `CLOUDFLARE_API_TOKEN` felstavat. Kontrollera B2/B3. |
+| `Unable to retrieve account ... ` / frågar efter account | `CLOUDFLARE_ACCOUNT_ID` saknas eller fel. |
+| `... Workers Routes ...` / route-fel | Token saknar zon-behörighet **eller** en route ligger kvar i `wrangler.jsonc`. Routen ska vara i dashboarden (Steg 5). |
+| `workers.dev subdomain ...` | Aktivera en workers.dev-subdomän en gång i dashboarden (Workers & Pages → ditt konto), eller ta bort `"workers_dev": true`. |
 
 När deployen är klar finns Workern på `https://cloudportaldocs.<ditt-subdomän>.workers.dev`.
 Öppna den och kontrollera att `/sv` laddar. (Den URL:en är bara för test — den riktiga blir `docs.coreit.cloud`.)

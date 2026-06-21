@@ -21,30 +21,30 @@ alternative at the bottom.
 
 ```jsonc
 {
-  "name": "coreit-docs",
+  "name": "cloudportaldocs",
   "compatibility_date": "2026-06-19",
-  "assets": { "directory": "./dist", "not_found_handling": "404-page" }
+  "assets": { "directory": "./dist", "not_found_handling": "404-page" },
+  "workers_dev": true
 }
 ```
 
-**Option A — Git-connected (Workers Builds, auto-deploy on push):**
-Cloudflare dashboard → **Workers & Pages → Create → Workers → Import a repository** →
-select `oscarcroon/CloudPortalDOCS`:
+> ⚠️ Do **not** use Cloudflare's own "Workers Builds" (Git-connected build) — the
+> Docus/Nuxt UI build is too heavy for its container and times out (~20 min). Build
+> elsewhere and upload.
 
-| Setting        | Value              |
-| -------------- | ------------------ |
-| Build command  | `npm run generate` |
-| Deploy command | `npx wrangler deploy` |
-| Node version   | `22` (env `NODE_VERSION=22`) |
+**Option A — GitHub Actions (recommended, auto-deploy on push):**
+`.github/workflows/deploy.yml` builds on GitHub's runners and deploys via wrangler.
+Set the two repo secrets (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`) — full
+token/secret steps are in **[CLOUDFLARE-SETUP.md](./CLOUDFLARE-SETUP.md) → Steg 1 B**.
 
 **Option B — Manual deploy from your machine:**
 ```bash
+npx wrangler login    # one-time
 npm run deploy        # = nuxt generate && npx wrangler deploy
 ```
-(`npx` fetches wrangler; or `npm i -D wrangler` first.)
 
 `nuxt generate` writes identical output to `dist/` and `.output/public`; `wrangler.jsonc`
-points at `dist`.
+points at `dist`. The custom hostname route is managed in the dashboard (not in config).
 
 ## 3. Build environment variables (REQUIRED)
 
