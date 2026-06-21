@@ -120,24 +120,21 @@ trafiken räcker en *originless* post:
 
 ## Steg 5 — Koppla Workern till hostnamnet (Worker Route)
 
-**Routen är redan definierad i `wrangler.jsonc`:**
-```jsonc
-"routes": [
-  { "pattern": "docs.coreit.cloud/*", "zone_name": "coreit.network" }
-]
-```
-Det betyder att routen skapas **automatiskt vid deploy** (Git-kopplingen eller
-`npm run deploy`) — du behöver normalt **inte** göra något manuellt här.
+Routen hanteras i **dashboarden** (inte i `wrangler.jsonc`), så att `wrangler deploy`
+bara laddar upp workern och aldrig behöver zon-behörighet eller bråkar om routes:
 
-> Förutsättning: kontot som deployar måste äga zonen `coreit.network`, och custom hostname +
-> fallback origin (Steg 2–4) ska finnas. Annars kan deployen klaga på routen.
-
-**Om du hellre sätter routen manuellt** (eller deployen inte hanterar den): ta bort `routes`
-ur `wrangler.jsonc` och lägg i stället till den i dashboarden — zonen `coreit.network` →
-**Workers Routes → Add route** → **Route:** `docs.coreit.cloud/*` → **Worker:** `coreit-docs`.
+1. Zonen `coreit.network` → **Workers Routes → Add route**
+2. **Route:** `docs.coreit.cloud/*`  ← **specifik**, inte `*/*`
+3. **Worker:** välj `cloudportaldocs`
+4. Spara
 
 > ⚠️ Använd **inte** `*/*`. Det skulle skicka **all** trafik på hela `coreit.network` till
 > docs-Workern. Mönstret `docs.coreit.cloud/*` matchar bara docs och lämnar resten av zonen ifred.
+
+> Varför inte i `wrangler.jsonc`? En route i config kräver att deploy-token har
+> **Zone → Workers Routes: Edit** på `coreit.network` och att hostnamnet redan är aktivt,
+> annars failar varje deploy. Att sätta routen en gång i dashboarden frikopplar
+> route-livscykeln från workern-deployen.
 
 ### Miljövariabler (sätts på Workern)
 **Settings → Variables and Secrets** (eller i build-steget):
