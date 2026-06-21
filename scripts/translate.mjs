@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// AI-assisted Swedish → English translation for CoreIT Cloud Docs.
+// AI-assisted Swedish → English translation for CloudPortal Docs.
 //
 // Canonical source is content/sv/**. This script (re)generates the English
 // counterpart for pages that are missing or marked `translationStatus: stale`,

@@ -1,15 +1,15 @@
 ---
 seo:
-  title: CoreIT Cloud Docs
-  description: User documentation for the CoreIT Cloud portal — guides for domains, DNS, certificates, email security, app hosting and partner management.
+  title: CloudPortal Docs
+  description: User documentation for the CloudPortal portal — guides for domains, DNS, certificates, email security, app hosting and partner management.
 ---
 
 ::u-page-hero
 #title
-CoreIT Cloud Docs
+CloudPortal Docs
 
 #description
-Guides and documentation for the CoreIT Cloud portal. Learn how to manage domains, DNS, certificates, email security and your applications — step by step.
+Guides and documentation for the CloudPortal portal. Learn how to manage domains, DNS, certificates, email security and your applications — step by step.
 
 #links
   :::u-button

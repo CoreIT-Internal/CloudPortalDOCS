@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   // Override per-environment with NUXT_PUBLIC_SITE_URL if needed.
   site: {
     url: 'https://docs.coreit.cloud',
-    name: 'CoreIT Cloud Docs',
+    name: 'CloudPortal Docs',
   },
   i18n: {
     defaultLocale: 'sv',

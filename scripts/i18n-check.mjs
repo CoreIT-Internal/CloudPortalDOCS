@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// i18n parity + safety-gate check for CoreIT Cloud Docs.
+// i18n parity + safety-gate check for CloudPortal Docs.
 //
 // Verifies, for content under content/<locale>/:
 //   1. Every page in the canonical locale (sv) has a counterpart in every

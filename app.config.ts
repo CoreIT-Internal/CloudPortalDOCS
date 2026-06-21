@@ -5,18 +5,18 @@ export default defineAppConfig({
   },
 
   seo: {
-    titleTemplate: '%s · CoreIT Cloud Docs',
-    title: 'CoreIT Cloud Docs',
-    description: 'Användardokumentation för CoreIT Cloud-portalen — guider för domäner, DNS, certifikat, e-postsäkerhet, app hosting och partnerhantering.',
+    titleTemplate: '%s · CloudPortal Docs',
+    title: 'CloudPortal Docs',
+    description: 'Användardokumentation för CloudPortal-portalen — guider för domäner, DNS, certifikat, e-postsäkerhet, app hosting och partnerhantering.',
   },
 
   header: {
-    title: 'CoreIT Cloud Docs',
+    title: 'CloudPortal Docs',
     // Drop logo files in public/logo/ and uncomment when available.
     // logo: {
-    //   light: '/logo/coreit-light.svg',
-    //   dark: '/logo/coreit-dark.svg',
-    //   alt: 'CoreIT Cloud',
+    //   light: '/logo/cloudportal-light.svg',
+    //   dark: '/logo/cloudportal-dark.svg',
+    //   alt: 'CloudPortal',
     // },
   },
 

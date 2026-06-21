@@ -1,6 +1,6 @@
-# CoreIT Cloud Docs
+# CloudPortal Docs
 
-Publik användardokumentation för CoreIT Cloud-portalen — [docs.coreit.cloud](https://docs.coreit.cloud).
+Publik användardokumentation för CloudPortal-portalen — [docs.coreit.cloud](https://docs.coreit.cloud).
 
 Byggd med [Docus](https://docus.dev) (Nuxt Content + Nuxt UI). All dokumentation är Markdown och vem som helst kan föreslå ändringar via GitHub.
 
@@ -39,7 +39,7 @@ Varje sida (utom `index.md`) ska ha:
 ```yaml
 ---
 title: Beställ certifikat
-description: Så beställer du ett nytt certifikat i CoreIT Cloud.
+description: Så beställer du ett nytt certifikat i CloudPortal.
 audience: customer            # customer | partner
 module: certificates
 portalArea: certificates

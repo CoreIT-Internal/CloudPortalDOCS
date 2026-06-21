@@ -1,15 +1,15 @@
 ---
 seo:
-  title: CoreIT Cloud Docs
-  description: Användardokumentation för CoreIT Cloud-portalen — guider för domäner, DNS, certifikat, e-postsäkerhet, app hosting och partnerhantering.
+  title: CloudPortal Docs
+  description: Användardokumentation för CloudPortal-portalen — guider för domäner, DNS, certifikat, e-postsäkerhet, app hosting och partnerhantering.
 ---
 
 ::u-page-hero
 #title
-CoreIT Cloud Docs
+CloudPortal Docs
 
 #description
-Guider och dokumentation för CoreIT Cloud-portalen. Här lär du dig hantera domäner, DNS, certifikat, e-postsäkerhet och dina applikationer — steg för steg.
+Guider och dokumentation för CloudPortal-portalen. Här lär du dig hantera domäner, DNS, certifikat, e-postsäkerhet och dina applikationer — steg för steg.
 
 #links
   :::u-button
