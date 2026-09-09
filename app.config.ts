@@ -23,12 +23,12 @@ export default defineAppConfig({
   // Powers the "Edit this page" link. Content lives at the repo root in content/,
   // so rootDir is the repo root (omitted). Update url/owner before going public.
   github: {
-    url: 'https://github.com/oscarcroon/CloudPortalDOCS',
+    url: 'https://github.com/CoreIT-Internal/CloudPortalDOCS',
     branch: 'main',
   },
 
   socials: {
-    github: 'https://github.com/oscarcroon/CloudPortalDOCS',
+    github: 'https://github.com/CoreIT-Internal/CloudPortalDOCS',
   },
 
   toc: {

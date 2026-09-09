@@ -2,7 +2,7 @@
 
 The site is a **fully static** Nuxt build (`nuxt generate` → `./dist`, no server runtime),
 deployed from the GitHub repo
-**[oscarcroon/CloudPortalDOCS](https://github.com/oscarcroon/CloudPortalDOCS)**.
+**[CoreIT-Internal/CloudPortalDOCS](https://github.com/CoreIT-Internal/CloudPortalDOCS)**.
 
 As of 2026 Cloudflare positions **Workers (static assets)** as the default for new
 projects (Pages is still supported but no longer the steered path). This project ships a
@@ -11,7 +11,7 @@ alternative at the bottom.
 
 ## 1. Push to GitHub
 
-- Push this project to `oscarcroon/CloudPortalDOCS`.
+- Push this project to `CoreIT-Internal/CloudPortalDOCS`.
 - `app.config.ts` (`github.url` / `socials.github`) already points there — this powers
   the **Edit this page** links. (Repo must be **public** for external edit links to work.)
 
@@ -98,7 +98,7 @@ not at build/deploy time.
 ## Alternative: deploy via Cloudflare Pages (legacy path)
 
 Pages still works for static sites. Dashboard → **Workers & Pages → Create → Pages →
-Connect to Git** → `oscarcroon/CloudPortalDOCS`:
+Connect to Git** → `CoreIT-Internal/CloudPortalDOCS`:
 
 | Setting          | Value              |
 | ---------------- | ------------------ |

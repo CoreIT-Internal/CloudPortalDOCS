@@ -43,7 +43,7 @@ Besökare → https://docs.coreit.cloud
 
 ## Steg 0 — Förutsättningar
 
-- Repot `oscarcroon/CloudPortalDOCS` är pushat till GitHub.
+- Repot `CoreIT-Internal/CloudPortalDOCS` är pushat till GitHub.
 - Du är inloggad på rätt Cloudflare-konto (det som äger `coreit.network`).
 - Zonen `coreit.network` är aktiv (status **Active**) i Cloudflare.
 

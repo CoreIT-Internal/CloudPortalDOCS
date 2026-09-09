@@ -27,7 +27,7 @@ Guides and documentation for the CloudPortal portal. Learn how to manage domains
   color: neutral
   icon: i-lucide-pencil
   size: xl
-  to: https://github.com/oscarcroon/CloudPortalDOCS
+  to: https://github.com/CoreIT-Internal/CloudPortalDOCS
   variant: outline
   ---
   Contribute on GitHub

@@ -27,7 +27,7 @@ Guider och dokumentation för CloudPortal-portalen. Här lär du dig hantera dom
   color: neutral
   icon: i-lucide-pencil
   size: xl
-  to: https://github.com/oscarcroon/CloudPortalDOCS
+  to: https://github.com/CoreIT-Internal/CloudPortalDOCS
   variant: outline
   ---
   Bidra på GitHub
