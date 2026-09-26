@@ -12,7 +12,7 @@ alternative at the bottom.
 ## 1. Push to GitHub
 
 - Push this project to `CoreIT-Internal/CloudPortalDOCS`.
-- `app.config.ts` (`github.url` / `socials.github`) already points there — this powers
+- `app/app.config.ts` (`github.url` / `socials.github`) already points there — this powers
   the **Edit this page** links. (Repo must be **public** for external edit links to work.)
 
 ## 2. Deploy via Cloudflare Workers (recommended)
