@@ -4,6 +4,14 @@ export default defineAppConfig({
     locale: 'sv',
   },
 
+  // Same palette as the portal: its brand blue as primary (scale in app/app.css), slate as neutral.
+  ui: {
+    colors: {
+      primary: 'brand',
+      neutral: 'slate',
+    },
+  },
+
   seo: {
     titleTemplate: '%s · CloudPortal Docs',
     title: 'CloudPortal Docs',
@@ -29,9 +37,5 @@ export default defineAppConfig({
 
   socials: {
     github: 'https://github.com/CoreIT-Internal/CloudPortalDOCS',
-  },
-
-  toc: {
-    title: 'På denna sida',
   },
 })

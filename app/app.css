@@ -1,0 +1,26 @@
+/*
+ * CloudPortal theme. Docus imports this file after Tailwind and Nuxt UI
+ * (see docus/modules/css.ts), so don't import tailwindcss here.
+ *
+ * The brand scale is built around the portal's brand colors
+ * (CloudPortalMSP portal/app/assets/css/tailwind.css):
+ *   --brand       #1C6DD0 → brand-500
+ *   --brand-dark  #0F3B73 → brand-800
+ *   --brand-light #EAF2FF → brand-50
+ * app.config.ts maps Nuxt UI's primary color to it, with slate as neutral.
+ */
+@theme static {
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --color-brand-50: #eaf2ff;
+  --color-brand-100: #d4e4fb;
+  --color-brand-200: #aac9f5;
+  --color-brand-300: #76a8ec;
+  --color-brand-400: #4588e0;
+  --color-brand-500: #1c6dd0;
+  --color-brand-600: #175bb0;
+  --color-brand-700: #144b92;
+  --color-brand-800: #0f3b73;
+  --color-brand-900: #0c2f5c;
+  --color-brand-950: #081f3d;
+}
