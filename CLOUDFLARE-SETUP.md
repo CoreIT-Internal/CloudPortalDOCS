@@ -185,7 +185,7 @@ bara laddar upp workern och aldrig behöver zon-behörighet eller bråkar om rou
 | Namn | Värde | Varför |
 | --- | --- | --- |
 | `NUXT_PUBLIC_SITE_URL` | `https://docs.coreit.cloud` | Korrekt sitemap/canonical/llms-domän |
-| `NODE_VERSION` | `22` | Build-runtime |
+| `NODE_VERSION` | `24` | Build-runtime |
 
 ---
 
