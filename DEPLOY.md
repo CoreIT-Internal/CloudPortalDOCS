@@ -53,7 +53,7 @@ In the Pages project → **Settings → Environment variables → Production** (
 | Variable               | Value                          | Why |
 | ---------------------- | ------------------------------ | --- |
 | `NUXT_PUBLIC_SITE_URL` | `https://docs.coreit.cloud`    | Makes `sitemap.xml` use absolute URLs and `llms.txt` use the right domain. Without it, Docus falls back to the auto `*.workers.dev` / `*.pages.dev` URL (wrong canonical domain). |
-| `NODE_VERSION`         | `22`                           | Build runtime. |
+| `NODE_VERSION`         | `24`                           | Build runtime. |
 
 > Verified: with `NUXT_PUBLIC_SITE_URL` set, sitemap `<loc>` entries and robots.txt
 > resolve to `https://docs.coreit.cloud/...`. Without it the sitemap entries are relative/invalid.
