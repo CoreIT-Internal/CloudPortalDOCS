@@ -48,7 +48,7 @@ What you can do in the portal
   Domains & DNS
 
   #description
-  Manage DNS zones and records, Cloudflare zones, redirects and autodiscover.
+  Manage DNS zones and records, search across zones, follow changes, redirects and Cloudflare zones.
   :::
 
   :::u-page-feature

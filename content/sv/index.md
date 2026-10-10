@@ -48,7 +48,7 @@ Vad du kan göra i portalen
   Domäner & DNS
 
   #description
-  Hantera DNS-zoner och poster, Cloudflare-zoner, redirects och autodiscover.
+  Hantera DNS-zoner och poster, sök i alla zoner, följ ändringar, omdirigeringar och Cloudflare-zoner.
   :::
 
   :::u-page-feature
