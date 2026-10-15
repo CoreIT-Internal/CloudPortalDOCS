@@ -24,3 +24,26 @@
   --color-brand-900: #0c2f5c;
   --color-brand-950: #081f3d;
 }
+
+/*
+ * "Redigera denna sida eller Rapportera ett problem" at the foot of every page sits in the label
+ * of a USeparator (Docus' pages/[[lang]]/[...slug].vue), which Nuxt UI never wraps: a horizontal
+ * separator's container is `whitespace-nowrap`, and the row inside it is a flex without wrap. In
+ * Swedish the row measured 448 px on a 375 px phone, and the whole page scrolled sideways.
+ *
+ * Only that row may wrap (matched by its edit link); every other separator keeps its single line.
+ */
+[data-slot="container"]:has(> .flex > a[href*="/edit/"]) {
+  min-width: 0;
+  white-space: normal;
+}
+
+[data-slot="container"] > .flex:has(> a[href*="/edit/"]) {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Each link stays one phrase: the row breaks between them, never inside "Redigera denna sida". */
+[data-slot="container"] > .flex:has(> a[href*="/edit/"]) > a {
+  white-space: nowrap;
+}
