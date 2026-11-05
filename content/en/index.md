@@ -110,4 +110,16 @@ What you can do in the portal
   #description
   For MSP partners: manage tenants, organizations, customer assignment and partner roles.
   :::
+
+  :::u-page-feature
+  ---
+  icon: i-lucide-bot
+  to: /en/ai-clients/overview
+  ---
+  #title
+  AI clients
+
+  #description
+  Connect your AI assistant to CloudPortal: it reads and proposes changes for the customers you choose.
+  :::
 ::
