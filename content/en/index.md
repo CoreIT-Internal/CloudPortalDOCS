@@ -84,7 +84,7 @@ What you can do in the portal
   App Hosting
 
   #description
-  Import, build and publish apps from GitHub — for example apps created in Lovable.
+  Bring home apps from Git — for example apps created in Lovable — and CoreIT puts them into operation.
   :::
 
   :::u-page-feature

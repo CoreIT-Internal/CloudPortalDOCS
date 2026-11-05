@@ -84,7 +84,7 @@ Vad du kan göra i portalen
   App Hosting
 
   #description
-  Importera, bygg och publicera appar från GitHub — till exempel appar skapade i Lovable.
+  Ta hem appar från Git — till exempel appar skapade i Lovable — så sätter CoreIT dem i drift.
   :::
 
   :::u-page-feature
