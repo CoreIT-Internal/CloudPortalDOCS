@@ -51,6 +51,10 @@ translationKey: certificates.order-certificate   # samma nyckel i sv och en
 
 Engelska sidor lägger dessutom till `locale: en`, `translationStatus` (`manual | ai-translated | review-required | stale | approved`) och `reviewed: true|false`.
 
+**Ingen `# Rubrik` i brödtexten.** `title` är sidans rubrik: Docus visar den överst på sidan och i sökningen. En H1 i texten gör att rubriken syns två gånger på sidan och att sidan dyker upp två gånger i sökrutan. Brödtexten börjar direkt med inledningen, och underrubriker är `##`. `npm run i18n:check` (och CI) stoppar en sida som har en H1.
+
+**Ordningssiffror med samma antal siffror i en mapp.** Sidomenyn, sökningen och föregående/nästa sorterar sidorna på filnamnet som text, så `10.delegeringar.md` hamnar före `2.medlemmar.md`. En mapp med tio sidor eller fler numreras `01.`, `02.`, … Siffran ingår inte i adressen, så en omnumrering ändrar inga länkar. `npm run i18n:check` stoppar en mapp där bredden blandas.
+
 ## Säkerhet & innehållsregler
 
 - Dokumentera bara det som syns i kund-/partner-UI eller redan godkänd publik produkttext.
