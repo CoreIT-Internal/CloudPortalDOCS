@@ -11,6 +11,11 @@
 //      `title` as the page heading, so an H1 shows the title twice on the page,
 //      and the search lists every page twice: once for the title, once for the
 //      H1.
+//   6. Within a directory, every numeric order prefix has the same width. The
+//      sidebar, search and prev/next sort pages by file name as text, so next
+//      to `10.delegeringar.md` a `2.medlemmar.md` sorts after it. A directory
+//      with ten or more pages numbers them 01., 02., … (the prefix is not part
+//      of the URL, so padding changes no address).
 //
 // Exit code 1 on any error. Warnings (forbidden words, stale) do not fail the
 // build by default but are surfaced; pass --strict to fail on warnings too.
@@ -43,6 +48,23 @@ async function walk(dir) {
     const full = join(dir, entry.name)
     if (entry.isDirectory()) out.push(...await walk(full))
     else if (entry.name.endsWith('.md')) out.push(full)
+  }
+  return out
+}
+
+// Directories whose numbered entries (pages and subdirectories) have prefixes
+// of different widths, so text order differs from number order.
+async function mixedPrefixWidths(dir) {
+  const out = []
+  const entries = await readdir(dir, { withFileTypes: true })
+  const widths = new Map()
+  for (const e of entries) {
+    const m = e.name.match(/^(\d+)\./)
+    if (m) widths.set(m[1].length, [...(widths.get(m[1].length) ?? []), e.name])
+  }
+  if (widths.size > 1) out.push({ dir, names: [...widths.values()].map(names => names[0]) })
+  for (const e of entries) {
+    if (e.isDirectory()) out.push(...await mixedPrefixWidths(join(dir, e.name)))
   }
   return out
 }
@@ -122,6 +144,10 @@ for (const locale of localeDirs) {
       if (re.test(lower)) warnings.push(`${rel}: contains forbidden term "${term}" — manual review required`)
     }
   }
+}
+
+for (const { dir, names } of await mixedPrefixWidths(CONTENT)) {
+  errors.push(`${relative(ROOT, dir)}: order prefixes of different widths (${names.join(', ')}). The sidebar sorts by file name as text, so they come out of order: give every entry the same number of digits (01., 02., …)`)
 }
 
 // Parity: every canonical key must exist in every other locale
