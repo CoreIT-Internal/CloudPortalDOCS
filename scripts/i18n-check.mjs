@@ -7,6 +7,10 @@
 //   2. Every page has `title` and `description` frontmatter.
 //   3. No page contains a forbidden internal term (safety gate).
 //   4. No translated page is marked `translationStatus: stale`.
+//   5. No page has a `# Heading` (H1) in its body. Docus renders the frontmatter
+//      `title` as the page heading, so an H1 shows the title twice on the page,
+//      and the search lists every page twice: once for the title, once for the
+//      H1.
 //
 // Exit code 1 on any error. Warnings (forbidden words, stale) do not fail the
 // build by default but are surfaced; pass --strict to fail on warnings too.
@@ -43,6 +47,24 @@ async function walk(dir) {
   return out
 }
 
+// The body's H1 headings, outside fenced code (a `# comment` in a shell block
+// is not a heading).
+function bodyH1s(src) {
+  const body = src.replace(/^---\n[\s\S]*?\n---\n/, '')
+  const found = []
+  let fence = null
+  for (const line of body.split('\n')) {
+    const f = line.match(/^\s*(`{3,}|~{3,})/)
+    if (f) {
+      if (!fence) fence = f[1][0]
+      else if (f[1][0] === fence) fence = null
+      continue
+    }
+    if (!fence && /^#\s/.test(line)) found.push(line.slice(1).trim())
+  }
+  return found
+}
+
 function parseFrontmatter(src) {
   const m = src.match(/^---\n([\s\S]*?)\n---/)
   if (!m) return {}
@@ -72,8 +94,13 @@ for (const locale of localeDirs) {
   const files = await walk(join(CONTENT, locale))
   for (const file of files) {
     const rel = relative(ROOT, file)
-    const src = await readFile(file, 'utf8')
+    // A Windows checkout (core.autocrlf) has CRLF; the parsers below want \n.
+    const src = (await readFile(file, 'utf8')).replace(/\r\n/g, '\n')
     const fm = parseFrontmatter(src)
+
+    for (const h1 of bodyH1s(src)) {
+      errors.push(`${rel}: "# ${h1}" is an H1 in the body. The frontmatter title is the page heading: remove the H1`)
+    }
 
     // index.md landing pages are exempt from translationKey requirement
     const isIndex = file.endsWith(`${locale}/index.md`) || file.endsWith(`${locale}\\index.md`)

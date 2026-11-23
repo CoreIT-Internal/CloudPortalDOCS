@@ -51,6 +51,8 @@ translationKey: certificates.order-certificate   # samma nyckel i sv och en
 
 Engelska sidor lägger dessutom till `locale: en`, `translationStatus` (`manual | ai-translated | review-required | stale | approved`) och `reviewed: true|false`.
 
+**Ingen `# Rubrik` i brödtexten.** `title` är sidans rubrik: Docus visar den överst på sidan och i sökningen. En H1 i texten gör att rubriken syns två gånger på sidan och att sidan dyker upp två gånger i sökrutan. Brödtexten börjar direkt med inledningen, och underrubriker är `##`. `npm run i18n:check` (och CI) stoppar en sida som har en H1.
+
 ## Säkerhet & innehållsregler
 
 - Dokumentera bara det som syns i kund-/partner-UI eller redan godkänd publik produkttext.
