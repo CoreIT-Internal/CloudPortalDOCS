@@ -110,4 +110,16 @@ Vad du kan göra i portalen
   #description
   För MSP-partners: hantera tenants, organisationer, kundtilldelning och partnerroller.
   :::
+
+  :::u-page-feature
+  ---
+  icon: i-lucide-bot
+  to: /sv/ai-klienter/oversikt
+  ---
+  #title
+  AI-klienter
+
+  #description
+  Anslut din AI-assistent till CloudPortal: den läser och föreslår ändringar för de kunder du väljer.
+  :::
 ::
